@@ -1,0 +1,18 @@
+{% extends 'sales/base.html' %}
+{% load humanize %}
+
+{% block content %}
+<div class="card shadow-sm mb-3">
+  <div class="card-body">
+    <h3 class="mb-1">{{ object.name }}</h3>
+    <p class="text-muted small mb-2">{{ object.brand }}</p>
+    <p class="mb-1"><strong>Harga:</strong> Rp {{ object.price|intcomma }}</p>
+    <p class="mb-3"><strong>Stok:</strong> {{ object.stock }}</p>
+    <hr>
+    <p>{{ object.description|linebreaks }}</p>
+    <a href="{% url 'perfume-update' object.pk %}" class="btn btn-outline-secondary">Ubah</a>
+    <a href="{% url 'perfume-delete' object.pk %}" class="btn btn-outline-danger">Hapus</a>
+    <a href="{% url 'perfume-list' %}" class="btn btn-link">Kembali</a>
+  </div>
+</div>
+{% endblock %}

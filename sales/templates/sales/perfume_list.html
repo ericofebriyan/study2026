@@ -1,0 +1,71 @@
+{% extends 'sales/base.html' %}
+{% load humanize %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>Daftar Parfum</h2>
+  <div class="d-flex gap-2">
+    <form class="d-flex" method="get">
+      <select name="brand" class="form-select me-2">
+        <option value="">Semua Merek</option>
+        {% for b in brands %}
+          {% if b %}
+            <option value="{{ b }}" {% if b == selected_brand %}selected{% endif %}>{{ b }}</option>
+          {% endif %}
+        {% endfor %}
+      </select>
+      <button class="btn btn-outline-primary me-2">Filter</button>
+      {% if show_all %}
+        <a href="?{% if selected_brand %}brand={{ selected_brand }}{% endif %}" class="btn btn-outline-secondary">Sembunyikan Semua</a>
+      {% else %}
+        <a href="?all=1{% if selected_brand %}&brand={{ selected_brand }}{% endif %}" class="btn btn-outline-secondary">Lihat Semua</a>
+      {% endif %}
+    </form>
+    <a href="{% url 'perfume-create' %}" class="btn btn-success">Tambah Parfum</a>
+  </div>
+</div>
+<div class="row g-3">
+  {% for p in perfumes %}
+    <div class="col-sm-6 col-md-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">{{ p.name }}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">{{ p.brand }}</h6>
+          <p class="mb-1">Rp {{ p.price|intcomma }}</p>
+          <p class="mb-3 text-muted">Stok: {{ p.stock }}</p>
+          <div class="mt-auto">
+            <a href="{{ p.get_absolute_url }}" class="btn btn-primary btn-sm">Lihat</a>
+            <a href="{% url 'perfume-update' p.pk %}" class="btn btn-outline-secondary btn-sm">Ubah</a>
+            <a href="{% url 'perfume-delete' p.pk %}" class="btn btn-outline-danger btn-sm">Hapus</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <div class="col-12">
+      <div class="alert alert-info">Tidak ada parfum.</div>
+    </div>
+  {% endfor %}
+</div>
+
+{% if is_paginated %}
+<nav class="mt-4" aria-label="Page navigation">
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+    {% else %}
+      <li class="page-item disabled"><span class="page-link">Previous</span></li>
+    {% endif %}
+    {% for num in paginator.page_range %}
+      <li class="page-item {% if num == page_obj.number %}active{% endif %}"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+    {% endfor %}
+    {% if page_obj.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+    {% else %}
+      <li class="page-item disabled"><span class="page-link">Next</span></li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %}
+
+{% endblock %}

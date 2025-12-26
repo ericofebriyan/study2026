@@ -1,0 +1,15 @@
+{% extends 'sales/base.html' %}
+
+{% block content %}
+<div class="card border-danger">
+  <div class="card-body">
+    <h3 class="text-danger">Hapus Parfum</h3>
+    <p>Anda yakin ingin menghapus <strong>{{ object }}</strong>?</p>
+    <form method="post">
+      {% csrf_token %}
+      <button class="btn btn-danger">Ya, hapus</button>
+      <a href="{% url 'perfume-detail' object.pk %}" class="btn btn-secondary">Batal</a>
+    </form>
+  </div>
+</div>
+{% endblock %}

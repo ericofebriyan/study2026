@@ -1,0 +1,35 @@
+{% extends 'sales/base.html' %}
+
+{% block content %}
+<div class="card">
+  <div class="card-body">
+    <h3>{% if object %}Ubah Parfum{% else %}Tambah Parfum{% endif %}</h3>
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      <div class="mb-3">
+        {{ form.name.label_tag }} {{ form.name }}
+        {{ form.name.errors }}
+      </div>
+      <div class="mb-3">
+        {{ form.brand.label_tag }} {{ form.brand }}
+        {{ form.brand.errors }}
+      </div>
+      <div class="mb-3">
+        {{ form.description.label_tag }} {{ form.description }}
+        {{ form.description.errors }}
+      </div>
+      <div class="mb-3">
+        {{ form.price.label_tag }} {{ form.price }}
+        {{ form.price.errors }}
+      </div>
+      <div class="mb-3">
+        {{ form.stock.label_tag }} {{ form.stock }}
+        {{ form.stock.errors }}
+      </div>
+      <button class="btn btn-primary">Simpan</button>
+      <a href="{% url 'perfume-list' %}" class="btn btn-secondary">Batal</a>
+    </form>
+  </div>
+</div>
+{% endblock %}

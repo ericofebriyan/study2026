@@ -1,4 +1,7 @@
-from django.http import HttpResponse
+from django.shortcuts import redirect
+
 
 def home(request):
-    return HttpResponse("Halo, Erico! Django sudah jalan 🚀")
+    # Redirect homepage to perfume CRUD list
+    return redirect('perfume-list')
+
