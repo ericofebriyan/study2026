@@ -28,6 +28,11 @@
   {% for p in perfumes %}
     <div class="col-sm-6 col-md-4">
       <div class="card h-100 shadow-sm">
+        {% if p.image %}
+          <img src="{{ p.image.url }}" class="card-img-top" alt="{{ p.name }}" style="height:180px;object-fit:cover;border-top-left-radius:0.6rem;border-top-right-radius:0.6rem;"/>
+        {% else %}
+          <img src="https://via.placeholder.com/400x250?text=No+Image" class="card-img-top" alt="no image" style="height:180px;object-fit:cover;border-top-left-radius:0.6rem;border-top-right-radius:0.6rem;"/>
+        {% endif %}
         <div class="card-body d-flex flex-column">
           <h5 class="card-title">{{ p.name }}</h5>
           <h6 class="card-subtitle mb-2 text-muted">{{ p.brand }}</h6>

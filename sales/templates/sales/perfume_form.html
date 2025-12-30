@@ -4,7 +4,7 @@
 <div class="card">
   <div class="card-body">
     <h3>{% if object %}Ubah Parfum{% else %}Tambah Parfum{% endif %}</h3>
-    <form method="post" novalidate>
+    <form method="post" novalidate enctype="multipart/form-data">
       {% csrf_token %}
       {{ form.non_field_errors }}
       <div class="mb-3">
@@ -26,6 +26,15 @@
       <div class="mb-3">
         {{ form.stock.label_tag }} {{ form.stock }}
         {{ form.stock.errors }}
+      </div>
+      <div class="mb-3">
+        {{ form.image.label_tag }} {{ form.image }}
+        {% if object and object.image %}
+          <div class="mt-2">
+            <img src="{{ object.image.url }}" alt="{{ object.name }}" style="max-width:180px;border-radius:8px;"/>
+          </div>
+        {% endif %}
+        {{ form.image.errors }}
       </div>
       <button class="btn btn-primary">Simpan</button>
       <a href="{% url 'perfume-list' %}" class="btn btn-secondary">Batal</a>

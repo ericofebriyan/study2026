@@ -5,13 +5,14 @@ from .models import Perfume
 class PerfumeForm(forms.ModelForm):
     class Meta:
         model = Perfume
-        fields = ['name', 'brand', 'description', 'price', 'stock']
+        fields = ['name', 'brand', 'description', 'price', 'stock', 'image']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'brand': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
             'price': forms.NumberInput(attrs={'class': 'form-control'}),
             'stock': forms.NumberInput(attrs={'class': 'form-control'}),
+            'image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
 
     def clean_price(self):

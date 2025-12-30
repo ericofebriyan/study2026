@@ -47,3 +47,20 @@ class PerfumeTests(TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertContains(resp, 'Harga harus bernilai positif')
         self.assertFalse(Perfume.objects.filter(name='Bad Perfume').exists())
+
+    def test_create_with_image(self):
+        from django.core.files.uploadedfile import SimpleUploadedFile
+        gif = (
+            b'GIF87a\x01\x00\x01\x00\x80\x00\x00\x00\x00\x00\xff\xff\xff!\xf9\x04\x01\x00\x00\x00\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02D\x01\x00;'
+        )
+        image = SimpleUploadedFile('test.gif', gif, content_type='image/gif')
+        resp = self.client.post(reverse('perfume-create'), {
+            'name': 'With Image',
+            'brand': 'ImgCo',
+            'price': '50000',
+            'stock': '3',
+            'image': image
+        })
+        self.assertEqual(resp.status_code, 302)
+        p = Perfume.objects.get(name='With Image')
+        self.assertTrue(p.image)
